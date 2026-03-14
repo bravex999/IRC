@@ -378,5 +378,7 @@ void IrcServer::_exec(const std::string &line, int fd)
 	else if (cmd == "TOPIC") _cmdTopic(c, args);
 	else if (cmd == "MODE") _cmdMode(c, args);
 	else if (cmd == "PRIVMSG") _cmdPrivMsg(c, args);
-	else _send(fd, ERR_UNKNOWNCOMMAND(cmd));
+	else if (cmd == "NOTICE" || cmd == "WHO" || cmd == "WHOIS" || cmd == "USERHOST" || cmd == "CAP")
+	(void)args;
+else _send(fd, ERR_UNKNOWNCOMMAND(cmd));
 }

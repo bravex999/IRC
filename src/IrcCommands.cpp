@@ -332,7 +332,7 @@ void IrcServer::_cmdTopic(UserConn *c, const std::string &args)
 			return;
 		}
 		chan->setTopic(topic);
-		_broadcast(RPL_TOPIC(c->getNick(), name, topic), chan, -1);
+		_broadcast(FMT_TOPIC(c->getNick(), c->getUser(), c->getIp(), name, topic), chan, -1);
 	}
 }
 
