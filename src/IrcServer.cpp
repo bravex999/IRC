@@ -302,23 +302,23 @@ void IrcServer::_flushOut(int fd)
 		return;
 
 	std::string &out = c->getOutBuffer();
-	while (!out.empty())
+	if (out.empty())
+		return;
+
+	ssize_t sent = send(fd, out.c_str(), out.length(), 0);
+	if (sent > 0)
+		c->consumeOut(static_cast<size_t>(sent));
+	else if (sent == 0)
 	{
-		ssize_t sent = send(fd, out.c_str(), out.length(), 0);
-		if (sent > 0)
-			c->consumeOut(static_cast<size_t>(sent));
-		else if (sent == 0)
-		{
-			_removeClient(fd, "Quit");
+		_removeClient(fd, "Quit");
+		return;
+	}
+	else
+	{
+		if (errno == EAGAIN || errno == EWOULDBLOCK)
 			return;
-		}
-		else
-		{
-			if (errno == EAGAIN || errno == EWOULDBLOCK)
-				break;
-			_removeClient(fd, "Quit");
-			return;
-		}
+		_removeClient(fd, "Quit");
+		return;
 	}
 
 	pollfd *pfd = _getPollFd(fd);
