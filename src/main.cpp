@@ -1,3 +1,7 @@
+#include "../includes/IrcServer.hpp"
+#include <iostream>
+#include <cstdlib>
+
 int main(int argc, char **argv)
 {
 	if (argc != 3)
