@@ -462,16 +462,23 @@ void IrcServer::_cmdMode(UserConn *c, const std::string &args)
 			std::string target;
 			ss >> target;
 			UserConn *t = _getClient(target);
-			if (t && chan->isMember(t))
+			if (!t)
 			{
-				if (add)
-					chan->addAdmin(t);
-				else
-					chan->removeAdmin(t);
-				resultModes += "o";
-				resultArgs += target;
-				resultArgs += " ";
+				_send(c->getFd(), ERR_NOSUCHNICK(target));
+				continue;
 			}
+			if (!chan->isMember(t))
+			{
+				_send(c->getFd(), ERR_USERNOTINCHANNEL(target, name));
+				continue;
+			}
+			if (add)
+				chan->addAdmin(t);
+			else
+				chan->removeAdmin(t);
+			resultModes += "o";
+			resultArgs += target;
+			resultArgs += " ";
 		}
 		else if (mode == 'l')
 		{
