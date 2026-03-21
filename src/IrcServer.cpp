@@ -9,7 +9,6 @@
 #include <stdexcept>
 #include <csignal>
 #include <cstdlib>
-#include <cerrno>
 
 bool IrcServer::_running = true;
 
@@ -164,13 +163,7 @@ void IrcServer::_handleData(int fd)
 		return;
 	}
 	if (bytes < 0)
-	{
-		if (errno == EAGAIN || errno == EWOULDBLOCK)
-			return;
-		_removeClient(fd, "Quit");
 		return;
-	}
-
 	buf[bytes] = 0;
 	UserConn *c = _getClient(fd);
 	if (!c)
@@ -316,13 +309,7 @@ void IrcServer::_flushOut(int fd)
 		return;
 	}
 	else
-	{
-		if (errno == EAGAIN || errno == EWOULDBLOCK)
-			return;
-		_removeClient(fd, "Quit");
 		return;
-	}
-
 	pollfd *pfd = _getPollFd(fd);
 	if (pfd && !c->hasOutData())
 		pfd->events &= ~POLLOUT;
