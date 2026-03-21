@@ -186,6 +186,8 @@ void IrcServer::_handleData(int fd)
 		if (!line.empty() && line[line.length() - 1] == '\r')
 			line.erase(line.length() - 1);
 		_exec(line, fd);
+		if (!_getClient(fd))
+			return;
 		data.erase(0, pos + 1);
 	}
 	c->clearBuffer();
