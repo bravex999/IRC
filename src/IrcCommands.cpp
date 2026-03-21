@@ -257,17 +257,16 @@ void IrcServer::_cmdPrivMsg(UserConn *c, const std::string &args)
 		msg.erase(0, 1);
 	if (!msg.empty() && msg[0] == ':')
 		msg.erase(0, 1);
-	if (msg.empty())
-	{
-		_send(c->getFd(), ERR_NOTEXTTOSEND);
-		return;
-	}
 	if (target.empty())
 	{
 		_send(c->getFd(), ERR_NEEDMOREPARAMS("PRIVMSG"));
 		return;
 	}
-
+	if (msg.empty())
+	{
+		_send(c->getFd(), ERR_NOTEXTTOSEND);
+		return;
+	}
 	if (target[0] == '#')
 	{
 		ChatRoom *chan = _getChannel(target);
