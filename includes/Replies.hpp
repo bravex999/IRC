@@ -39,6 +39,7 @@
 #define ERR_INVITEONLYCHAN(chan) (std::string(":Server 473 * ") + chan + " :Cannot join channel (+i)" + CRLF)
 #define ERR_BADCHANNELKEY(chan) (std::string(":Server 475 * ") + chan + " :Cannot join channel (+k)" + CRLF)
 #define ERR_CHANOPRIVSNEEDED(chan) (std::string(":Server 482 * ") + chan + " :You're not channel operator" + CRLF)
+#define ERR_ERRONEUSNICKNAME(nick) (std::string(":Server 432 * ") + nick + " :Erroneous nickname" + CRLF)
 #define FMT_TOPIC(nick, user, host, chan, topic) (std::string(":") + nick + "!" + user + "@" + host + " TOPIC " + chan + " :" + topic + CRLF)
 #define ERR_NOTEXTTOSEND (std::string(":Server 412 * :No text to send") + CRLF)
 
