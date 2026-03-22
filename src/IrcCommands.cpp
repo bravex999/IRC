@@ -81,6 +81,11 @@ void IrcServer::_cmdUser(UserConn *c, const std::string &args)
 	std::string real;
 
 	ss >> user >> mode >> unused;
+	if (user.empty() || mode.empty() || unused.empty())
+	{
+		_send(c->getFd(), ERR_NEEDMOREPARAMS("USER"));
+		return;
+	}		
 	std::getline(ss, real);
 	if (!real.empty() && real[0] == ' ')
 		real.erase(0, 1);
