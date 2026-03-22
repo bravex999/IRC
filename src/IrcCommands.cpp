@@ -504,7 +504,7 @@ void IrcServer::_cmdMode(UserConn *c, const std::string &args)
 		else
 		{
 			_send(c->getFd(), ERR_UNKNOWNMODE(mode));
-			return;
+			continue;
 		}
 	}
 
