@@ -208,7 +208,7 @@ void IrcServer::_removeClient(int fd, const std::string &reason)
 		if (_channels[i]->isMember(c))
 		{
 			_channels[i]->removeMember(c);
-			if (_channels[i]->getMembers().empty()) // if the channel is empty, the channel must be destroy
+			if (_channels[i]->getMembers().empty())
 			{
 				ChatRoom *tmp = _channels[i];
 				_channels.erase(_channels.begin() + i);
