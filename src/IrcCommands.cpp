@@ -39,6 +39,11 @@ void IrcServer::_cmdNick(UserConn *c, const std::string &args)
 		_send(c->getFd(), ERR_ERRONEUSNICKNAME(args));
 		return;
 	}
+	if (args.length() > 9)
+	{
+		_send(c->getFd(), ERR_ERRONEUSNICKNAME(args));
+		return; 
+	}		
 	if (_getClient(args))
 	{
 		_send(c->getFd(), ERR_NICKNAMEINUSE(args));
