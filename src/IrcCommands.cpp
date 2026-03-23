@@ -32,7 +32,9 @@ void IrcServer::_cmdNick(UserConn *c, const std::string &args)
 	}
 	if (!c->hasPass())
 		return;
-	if (args[0] == '#' || args[0] == '&' || (args[0] >= '0' && args[0] <= '9'))
+	if (!((args[0] >= 'a' && args[0] <= 'z') || (args[0] >= 'A' && args[0] <= 'Z') ||
+		args[0] == '[' || args[0] == ']' || args[0] == '\' || args[0] == '`' ||
+		args[0] == '_' || args[0] == '^' || args[0] == '{' || args[0] == '|' || args[0] == '}'))
 	{
 		_send(c->getFd(), ERR_ERRONEUSNICKNAME(args));
 		return;
